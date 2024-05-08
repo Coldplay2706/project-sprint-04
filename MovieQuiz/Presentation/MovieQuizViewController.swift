@@ -6,15 +6,18 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
     
-    @IBAction func yesButtonClicked(_ sender: Any) {
+    @IBAction private func yesButtonClicked(_ sender: Any) {
+
         let currenQuestion = questions[currentQuestionIndex]
         let givenAnswer = true
-        
+    
         showAnswerResult(isCorrect: givenAnswer == currenQuestion.correctAnswer)
     }
     
     
-    @IBAction func noButtonClicked(_ sender: Any) {
+    @IBAction private func noButtonClicked(_ sender: Any) {
+        
+
         let currentQuestion = questions[currentQuestionIndex]
         let givenAnswer = false
         
@@ -39,7 +42,6 @@ final class MovieQuizViewController: UIViewController {
         let correctAnswer: Bool
     }
     
-    
     private let questions: [QuizQuestion] = [
         QuizQuestion(image: "The Godfather", text: "Рейтинг этого фильма больше чем 6?", correctAnswer: true),
         QuizQuestion(image: "The Dark Knight", text: "Рейтинг этого фильма больше чем 6?", correctAnswer: true),
@@ -56,11 +58,15 @@ final class MovieQuizViewController: UIViewController {
     private var correctAnswer = 0
     
     override func viewDidLoad() {
+        
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
         show(quiz: QuizStepViewModel(image: UIImage(named: "The Godfather") ?? UIImage() , question: "Рейтинг этого фильма больше чем 6?", questionNumber: "1/10"))
+
     }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        let questionStep = QuizStepViewModel(image: UIImage(named: model.image) ?? UIImage(), question: model.text, questionNumber: "\(currentQuestionIndex + 1)\(questions.count)")
+        let questionStep = QuizStepViewModel(image: UIImage(named: model.image) ?? UIImage(), question: model.text, questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)")
         return questionStep
     }
     
@@ -97,6 +103,7 @@ final class MovieQuizViewController: UIViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.showNextQuestionOrResults()
+    
         }
         
     }
@@ -106,6 +113,7 @@ final class MovieQuizViewController: UIViewController {
         let text = "Ваш результат: \(correctAnswer)/10"
         let viewModel = QuizResultViewModel(title: "Этот раунд окончен", text: text, buttonText: "Сыграть еще раз")
         show(quiz: viewModel)
+
         } else {
             currentQuestionIndex += 1
             
