@@ -5,6 +5,8 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
+    @IBOutlet weak var noButtonOutlet: UIButton!
+    @IBOutlet weak var yesButtonOutlet: UIButton!
     
     @IBAction private func yesButtonClicked(_ sender: Any) {
 
@@ -14,10 +16,7 @@ final class MovieQuizViewController: UIViewController {
         showAnswerResult(isCorrect: givenAnswer == currenQuestion.correctAnswer)
     }
     
-    
     @IBAction private func noButtonClicked(_ sender: Any) {
-        
-
         let currentQuestion = questions[currentQuestionIndex]
         let givenAnswer = false
         
@@ -41,7 +40,6 @@ final class MovieQuizViewController: UIViewController {
         let text: String
         let correctAnswer: Bool
     }
-    
     private let questions: [QuizQuestion] = [
         QuizQuestion(image: "The Godfather", text: "Рейтинг этого фильма больше чем 6?", correctAnswer: true),
         QuizQuestion(image: "The Dark Knight", text: "Рейтинг этого фильма больше чем 6?", correctAnswer: true),
@@ -64,6 +62,16 @@ final class MovieQuizViewController: UIViewController {
         show(quiz: QuizStepViewModel(image: UIImage(named: "The Godfather") ?? UIImage() , question: "Рейтинг этого фильма больше чем 6?", questionNumber: "1/10"))
 
     }
+    
+    private func blockButton() {
+        noButtonOutlet.isEnabled = false
+        yesButtonOutlet.isEnabled = false
+    }
+    private func unblockButton() {
+        noButtonOutlet.isEnabled = true
+        yesButtonOutlet.isEnabled = true
+    }
+    
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(image: UIImage(named: model.image) ?? UIImage(), question: model.text, questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)")
@@ -100,9 +108,10 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-        
+        blockButton()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.showNextQuestionOrResults()
+            self.unblockButton()
     
         }
         
