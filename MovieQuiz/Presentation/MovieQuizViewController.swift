@@ -5,8 +5,8 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
-    @IBOutlet weak var noButtonOutlet: UIButton!
-    @IBOutlet weak var yesButtonOutlet: UIButton!
+    @IBOutlet private weak var noButtonOutlet: UIButton!
+    @IBOutlet private weak var yesButtonOutlet: UIButton!
     
     @IBAction private func yesButtonClicked(_ sender: Any) {
 
