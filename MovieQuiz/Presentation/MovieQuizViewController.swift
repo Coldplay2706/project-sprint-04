@@ -12,7 +12,7 @@ final class MovieQuizViewController: UIViewController {
 
         let currenQuestion = questions[currentQuestionIndex]
         let givenAnswer = true
-    
+        
         showAnswerResult(isCorrect: givenAnswer == currenQuestion.correctAnswer)
     }
     
@@ -56,11 +56,13 @@ final class MovieQuizViewController: UIViewController {
     private var correctAnswer = 0
     
     override func viewDidLoad() {
-        
+        yesButtonOutlet.layer.cornerRadius = 15
         imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
         show(quiz: QuizStepViewModel(image: UIImage(named: "The Godfather") ?? UIImage() , question: "Рейтинг этого фильма больше чем 6?", questionNumber: "1/10"))
-
+    
+        noButtonOutlet.isExclusiveTouch = true
+        yesButtonOutlet.isExclusiveTouch = true
     }
     
     private func blockButton() {
@@ -81,7 +83,7 @@ final class MovieQuizViewController: UIViewController {
         imageView.image = step.image
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
-        imageView.layer.borderColor = UIColor.ypBlack.cgColor
+        imageView.layer.borderWidth = 0
     }
     private func show(quiz result : QuizResultViewModel) {
         let alert = UIAlertController(
